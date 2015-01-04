@@ -17,3 +17,12 @@
   width: 100%;
   z-index: 10;
 }
+
+li {
+    list-style: none;
+    border: green solid 1px;
+    width: 10em;
+    text-align: center;
+    margin: 0.3em;
+    padding: 0.6em;
+}

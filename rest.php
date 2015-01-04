@@ -28,11 +28,12 @@ if (!empty($_GET['cmd']) && !empty($_GET['val'])) {
       <h2>Demo Buttons</h2>
       <p>jQuery.get() is used to fire a get request to the api</p>
       <ul>
-        <li><a onclick="$.get( '?cmd=right&val=500');">go right 500 ms</a></li>
-        <li><a onclick="$.get( '?cmd=left&val=500');">go left 500 ms</a></li>
-        <li><a onclick="$.get( '?cmd=up&val=500');">go up 500 ms</a></li>
-        <li><a onclick="$.get( '?cmd=down&val=500');">go down 500 ms</a></li>
-        <li><a onclick="$.get( '?cmd=zero&val=1');">go to zero</a></li>
+        <li onclick="$.get( '?cmd=right&val=500');">go right 500 ms</li>
+        <li onclick="$.get( '?cmd=left&val=500');">go left 500 ms</li>
+        <li onclick="$.get( '?cmd=up&val=500');">go up 500 ms</li>
+        <li onclick="$.get( '?cmd=down&val=500');">go down 500 ms</li>
+        <li onclick="$.get( '?cmd=zero&val=1');">go to zero</li>
+        <li onclick="$.get( '?cmd=fire&val=1');">FIRE!</li>
       </ul>
   </body>
 </html>
