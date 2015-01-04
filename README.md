@@ -18,6 +18,7 @@ Attack! solves this problem.
       entering a password.
 
       E.g. in /etc/sudoers: `www-data ALL=(ALL) NOPASSWD: ALL`
+      
       Hint: use sudo visudo to edit sudoers file.
 
 
