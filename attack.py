@@ -91,8 +91,10 @@ def send_cmd(cmd):
 
 def send_move(cmd, duration_ms):
     send_cmd(cmd)
-    time.sleep(duration_ms / 1000.0)
-    send_cmd(STOP)
+    # send negative time to enter continouous mode. you have to send the stop command yourself!
+    if duration_ms >= 0:
+        time.sleep(duration_ms / 1000.0)
+        send_cmd(STOP)
 
 
 def run_command(command, value):
@@ -118,6 +120,8 @@ def run_command(command, value):
         for i in range(value):
             send_cmd(FIRE)
             time.sleep(4.5)
+    elif command == "stop":
+        send_cmd(STOP)
     else:
         print "Error: Unknown command: '%s'" % command
 

@@ -35,5 +35,13 @@ if (!empty($_GET['cmd']) && !empty($_GET['val'])) {
         <li onclick="$.get( '?cmd=zero&val=1');">go to zero</li>
         <li onclick="$.get( '?cmd=fire&val=1');">FIRE!</li>
       </ul>
+      
+      <ul>
+        <li onmousedown="$.get( '?cmd=right&amp;val=-1');" onmouseup="$.get( '?cmd=stop&amp;val=1');">continous right</li>
+        <li onmousedown="$.get( '?cmd=left&amp;val=-1');" onmouseup="$.get( '?cmd=stop&amp;val=1');">continous left</li>
+        <li onmousedown="$.get( '?cmd=up&amp;val=-1');" onmouseup="$.get( '?cmd=stop&amp;val=1');">continous up</li>
+        <li onmousedown="$.get( '?cmd=down&amp;val=-1');" onmouseup="$.get( '?cmd=stop&amp;val=1');">continous down</li>
+        <li onmousedown="$.get( '?cmd=stop&amp;val=1');" onmouseup="$.get( '?cmd=stop&amp;val=1');">emergency stop</li>
+      </ul>
   </body>
 </html>
