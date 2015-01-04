@@ -59,8 +59,9 @@
     </script>
   </head>
   <body>
-      <h2>Demo Buttons</h2>
-      <p>jQuery.get() is used to fire a get request to the api</p>
+      <h2>Client Demo</h2>
+      <p>jQuery.get() is used to fire a get request to the api on http://missile-attack:8080</p>
+      <p>You can also use arrow keys and space and enter for controlling the missile launcher.</p>
       <ul>
         <li onclick="$.get( 'http://missile-attack:8080/right/500');">go right 500 ms</li>
         <li onclick="$.get( 'http://missile-attack:8080/left/500');">go left 500 ms</li>
@@ -69,6 +70,8 @@
         <li id="zero" onclick="$.get( 'http://missile-attack:8080/zero/1');">go to zero</li>
         <li id="fire" onclick="$.get( 'http://missile-attack:8080/fire/1');">FIRE!</li>
       </ul>
+      
+      <p>for continuous movement press and hold the mouse button.</p>
       
       <ul>
         <li id="right" onmousedown="$.get( 'http://missile-attack:8080/right');" onmouseup="$.get( 'http://missile-attack:8080/stop');">continous right</li>

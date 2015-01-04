@@ -10,7 +10,6 @@ class myHandler(BaseHTTPRequestHandler):
 	
 	# do the rocket launcher stuff
 	def process_thunder_commands(self):
-		print self.path
 		if self.path == "/":
 			self.wfile.write("accesing root: undefined action")
 			return
@@ -18,11 +17,11 @@ class myHandler(BaseHTTPRequestHandler):
 		pathparts = self.path.split("/")
 		if len(pathparts) == 3:
 			# with parameter like !/right/500
-			self.wfile.write("with parameter (" + pathparts[2] + ") dude")
+			self.wfile.write("command: [" + pathparts[1] + "] with parameter: [" + pathparts[2] + "]")
 			run_command(pathparts[1], pathparts[2])
 		elif len(pathparts) == 2:
 			# without parameter like !/right for continuous movement
-			self.wfile.write("no parameter. continuous.")
+			self.wfile.write("command: [" + pathparts[1] + "]")
 			run_command(pathparts[1], -1)
 		else:
 			self.wfile.write("undefined action")
@@ -38,10 +37,8 @@ class myHandler(BaseHTTPRequestHandler):
 		# send_cmd(RIGHT)
 
 		# Send the html message
-		self.wfile.write("Hello World !\n\n")
+		self.wfile.write("REST API | " + self.path + " | ")
 		
-		
-		self.wfile.write(self.path)
 		self.process_thunder_commands()
 		return
 

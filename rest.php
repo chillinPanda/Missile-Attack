@@ -25,8 +25,9 @@ if (!empty($_GET['cmd']) && !empty($_GET['val'])) {
 }
 ?>
 	
-      <h2>Demo Buttons</h2>
+      <h2>PHP REST API</h2>
       <p>jQuery.get() is used to fire a get request to the api</p>
+      <p>Call this site with url parameter like "?cmd=right&val=500"</p> 
       <ul>
         <li onclick="$.get( '?cmd=right&val=500');">go right 500 ms</li>
         <li onclick="$.get( '?cmd=left&val=500');">go left 500 ms</li>
@@ -35,6 +36,8 @@ if (!empty($_GET['cmd']) && !empty($_GET['val'])) {
         <li onclick="$.get( '?cmd=zero&val=1');">go to zero</li>
         <li onclick="$.get( '?cmd=fire&val=1');">FIRE!</li>
       </ul>
+      
+      <p>for continuous movement press and hold the mouse button.</p>
       
       <ul>
         <li onmousedown="$.get( '?cmd=right&amp;val=-1');" onmouseup="$.get( '?cmd=stop&amp;val=1');">continous right</li>
