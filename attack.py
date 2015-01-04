@@ -78,10 +78,10 @@ def setup_usb():
     if DEVICE is None:
         raise ValueError('Missile device not found')
 
-        try:
-            DEVICE.detach_kernel_driver(0)
-        except Exception, e:
-            pass # already unregistered    
+    try:
+        DEVICE.detach_kernel_driver(0)
+    except Exception, e:
+        pass # already unregistered    
 
     DEVICE.set_configuration()
 
