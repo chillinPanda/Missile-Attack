@@ -26,3 +26,8 @@ li {
     margin: 0.3em;
     padding: 0.6em;
 }
+
+.active {
+    background: red;
+    opacity: 0.59;
+}
