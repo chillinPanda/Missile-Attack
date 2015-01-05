@@ -3,10 +3,17 @@ from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
 from attack import *
 
 PORT_NUMBER = 8080
+global execution_counter
+execution_counter = 0
+
+# Blank favicon - prevents silly 404s from occuring if no favicon is supplied
+FAVICON_GIF = 'GIF89a\x01\x00\x01\x00\xf0\x00\x00\xff\xff\xff\x00\x00\x00!\xff\x0bXMP DataXMP\x02?x\x00!\xf9\x04\x05\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00@\x02\x02D\x01\x00;'
+
 
 #This class will handles any incoming request from
 #the browser 
 class myHandler(BaseHTTPRequestHandler):
+	
 	
 	# do the rocket launcher stuff
 	def process_thunder_commands(self):
@@ -29,6 +36,14 @@ class myHandler(BaseHTTPRequestHandler):
 			
 	#Handler for the GET requests
 	def do_GET(self):
+		if '/favicon.ico' in self.path:
+			self.send_response(200)
+			self.send_header('Content-type','image/gif')
+			self.send_header('Cache-Control','max-age=315360000')
+			self.wfile.write(FAVICON_GIF)
+			return
+		global execution_counter
+		execution_counter = execution_counter + 1
 		self.send_response(200)
 		self.send_header('Content-type','text/html')
 		self.send_header('Access-Control-Allow-Origin','*')
@@ -37,7 +52,7 @@ class myHandler(BaseHTTPRequestHandler):
 		# send_cmd(RIGHT)
 
 		# Send the html message
-		self.wfile.write("REST API | " + self.path + " | ")
+		self.wfile.write("REST API | " + self.path + " | Counter: " + str(execution_counter) + " | ")
 		
 		self.process_thunder_commands()
 		return
