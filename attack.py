@@ -91,7 +91,7 @@ def send_cmd(cmd):
 
 def send_move(cmd, duration_ms):
     send_cmd(cmd)
-    # send negative time to enter continouous mode. you have to send the stop command yourself!
+    # send negative time to enter continuous mode. you have to send the stop command yourself!
     duration_ms = float(duration_ms)
     if duration_ms >= 0:
         time.sleep(duration_ms / 1000.0)
@@ -134,7 +134,7 @@ def run_command_set(commands):
 def main(args):
 
     if len(args) < 2:
-        usage()
+        #usage()
         sys.exit(1)
 
     setup_usb()

@@ -31,3 +31,18 @@ li {
     background: red;
     opacity: 0.59;
 }
+
+#console {
+    border: solid 1px black;
+    padding: 0.3em;
+    float: left;
+    max-width: 70%;
+    max-height: 600px;
+    overflow:scroll;
+    overflow-x:hidden;
+}
+
+#controls {
+    max-width: 30%;
+    float: left;
+}

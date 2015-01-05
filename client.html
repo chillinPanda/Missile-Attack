@@ -4,55 +4,74 @@
     <link rel="stylesheet" href="main.css">
     <script type="text/javascript">
     	// Keyboard control
-    	// used a jsfiddle to figure this out: http://jsfiddle.net/3n2hc8mu/
+    	// made a jsfiddle to figure keycodes: http://jsfiddle.net/3n2hc8mu/
+        
+        var HOST = "http://missile-attack:8080";
+        
+        var CMD = {
+            UP    : {url: "/up", selector: "#up", keycode: 38}, 
+            DOWN  : {url: "/down", selector: "#down", keycode: 40}, 
+            LEFT  : {url: "/left", selector: "#left", keycode: 37}, 
+            RIGHT : {url: "/right", selector: "#right", keycode: 39},
+            FIRE  : {url: "/fire/1", selector: "#fire", keycode: 32}, 
+            ZERO  : {url: "/zero", selector: "#zero", keycode: 13},
+            STOP  : {url: "/stop", selector: "#stop"}
+        };
+        
+        // used to surpress constantly firing get request during pressed state, because events are fired repeatedly
 	    var isKeyDown = false;
 
-		$(function(){
+        var sendCommand = function(cmd){
+            if(cmd == CMD.STOP){
+                isKeyDown = false;
+                $('#up').removeClass('active');
+                $('#down').removeClass('active');
+                $('#right').removeClass('active');
+                $('#left').removeClass('active');
+                $('#zero').removeClass('active');
+                $('#fire').removeClass('active');
+            } else {
+                isKeyDown = true;
+                $(cmd.selector).addClass('active');
+            }
+            
+            $.get(HOST + cmd.url, function(data){
+                log(data);
+            });
+        }
+        
+        var log = function(msg){
+            var c = $('#console');
+            c.append(msg + "<br>");
+            var height = c[0].scrollHeight;
+            c.scrollTop(height);
+        }
+
+        // autostart
+		$(function(){            
 		    $('html').keydown(function(e){
-		        if (e.which == 38 && !isKeyDown) {
-		            isKeyDown = true;
-		            // console.log('up');
-		            $('#up').addClass('active');
-		            $.get( 'http://missile-attack:8080/up');
-		        } else if (e.which == 40 && !isKeyDown) {
-		            isKeyDown = true;
-		            // console.log('down');
-		            $('#down').addClass('active');
-		            $.get( 'http://missile-attack:8080/down');
-		        } else if (e.which == 37 && !isKeyDown) {
-		            isKeyDown = true;
-		            // console.log('left');
-		            $('#left').addClass('active');
-		            $.get( 'http://missile-attack:8080/left');
-		        } else if (e.which == 39 && !isKeyDown) {
-		            isKeyDown = true;
-		            // console.log('right');
-		            $('#right').addClass('active');
-		            $.get( 'http://missile-attack:8080/right');
-		        } else if (e.which == 32 && !isKeyDown) {
-		            isKeyDown = true;
-		            $('#fire').addClass('active');
-		            // console.log('space');
-		            $.get( 'http://missile-attack:8080/fire/1');     
-		        } else if (e.which == 13 && !isKeyDown) {
-		            isKeyDown = true;
-		            // console.log('enter');
-		            $('#zero').addClass('active');
-		            $.get( 'http://missile-attack:8080/zero');     
-		        }
+		        if (e.which == CMD.UP.keycode && !isKeyDown) {
+                    sendCommand(CMD.UP);
+		        } else if (e.which == CMD.DOWN.keycode && !isKeyDown) {
+		            sendCommand(CMD.DOWN);
+		        } else if (e.which == CMD.LEFT.keycode && !isKeyDown) {
+		            sendCommand(CMD.LEFT);
+		        } else if (e.which == CMD.RIGHT.keycode && !isKeyDown) {
+		            sendCommand(CMD.RIGHT);
+		        } else if (e.which == CMD.FIRE.keycode && !isKeyDown) {
+		            sendCommand(CMD.FIRE);
+		        } else if (e.which == CMD.FIRE.keycode && !isKeyDown) {
+		            sendCommand(CMD.ZERO);
+		        } else if (e.which == 46) {
+                    // clear console with delete key
+                    $('#console').text("");
+                }                
 		    });
 		
 		    $('html').keyup(function(e){
 		        if ((e.which == 38) || (e.which == 40) || (e.which == 37) || (e.which == 39) || (e.which == 32) || (e.which == 13)) {
 		            // console.log("KEY UP!!!!");
-		            isKeyDown = false;   
-		            $('#up').removeClass('active');
-		            $('#down').removeClass('active');
-		            $('#right').removeClass('active');
-		            $('#left').removeClass('active');
-		            $('#zero').removeClass('active');
-		            $('#fire').removeClass('active');
-		            $.get( 'http://missile-attack:8080/stop');
+		            sendCommand(CMD.STOP);
 		        }
 		    });
 		});
@@ -61,24 +80,30 @@
   <body>
       <h2>Client Demo</h2>
       <p>jQuery.get() is used to fire a get request to the api on http://missile-attack:8080</p>
-      <p>You can also use arrow keys and space and enter for controlling the missile launcher.</p>
-      <ul>
-        <li onclick="$.get( 'http://missile-attack:8080/right/500');">go right 500 ms</li>
-        <li onclick="$.get( 'http://missile-attack:8080/left/500');">go left 500 ms</li>
-        <li onclick="$.get( 'http://missile-attack:8080/up/500');">go up 500 ms</li>
-        <li onclick="$.get( 'http://missile-attack:8080/down/500');">go down 500 ms</li>
-        <li id="zero" onclick="$.get( 'http://missile-attack:8080/zero/1');">go to zero</li>
-        <li id="fire" onclick="$.get( 'http://missile-attack:8080/fire/1');">FIRE!</li>
-      </ul>
+      <p>You can also use arrow keys and space, delete key and enter for controlling the missile launcher.</p>
       
-      <p>for continuous movement press and hold the mouse button.</p>
+      <div id="controls">
+          <ul>
+            <li onclick="$.get( 'http://missile-attack:8080/right/500');">go right 500 ms</li>
+            <li onclick="$.get( 'http://missile-attack:8080/left/500');">go left 500 ms</li>
+            <li onclick="$.get( 'http://missile-attack:8080/up/500');">go up 500 ms</li>
+            <li onclick="$.get( 'http://missile-attack:8080/down/500');">go down 500 ms</li>
+            <li onclick="$('#console').text('');">clear console</li>
+            <li id="zero" onclick="$.get( 'http://missile-attack:8080/zero/1');">go to zero</li>
+            <li id="fire" onclick="$.get( 'http://missile-attack:8080/fire/1');">FIRE!</li>
+          </ul>
+
+          <p>for continuous movement press and hold the mouse button.</p>
+
+          <ul>
+            <li id="right" onmousedown="sendCommand(CMD.RIGHT);" onmouseup="sendCommand(CMD.STOP);">continous right</li>
+            <li id="left" onmousedown="sendCommand(CMD.LEFT);" onmouseup="sendCommand(CMD.STOP);">continous left</li>
+            <li id="up" onmousedown="sendCommand(CMD.UP);" onmouseup="sendCommand(CMD.STOP);">continous up</li>
+            <li id="down" onmousedown="sendCommand(CMD.DOWN);" onmouseup="sendCommand(CMD.STOP);">continous down</li>
+            <li id="stop" onmousedown="sendCommand(CMD.STOP);" onmouseup="sendCommand(CMD.STOP);">emergency stop</li>
+          </ul>
+      </div>
       
-      <ul>
-        <li id="right" onmousedown="$.get( 'http://missile-attack:8080/right');" onmouseup="$.get( 'http://missile-attack:8080/stop');">continous right</li>
-        <li id="left" onmousedown="$.get( 'http://missile-attack:8080/left');" onmouseup="$.get( 'http://missile-attack:8080/stop');">continous left</li>
-        <li id="up" onmousedown="$.get( 'http://missile-attack:8080/up');" onmouseup="$.get( 'http://missile-attack:8080/stop');">continous up</li>
-        <li id="down" onmousedown="$.get( 'http://missile-attack:8080/down');" onmouseup="$.get( 'http://missile-attack:8080/stop');">continous down</li>
-        <li id="stop" onmousedown="$.get( 'http://missile-attack:8080/stop');" onmouseup="$.get( 'http://missile-attack:8080/stop');">emergency stop</li>
-      </ul>
+      <div id="console">Results of HTTP Requests are logged here - sent to http://missile-attack:8080<br></div>
   </body>
 </html>
